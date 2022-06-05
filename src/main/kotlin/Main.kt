@@ -23,14 +23,13 @@ internal fun calculateComission(
     val comission: Double = when (cardType) {
         CardType.VK_PAY -> 0.0
         CardType.MIR, CardType.VISA -> {
-            val mirComission = trans * (MIR_COMISSION / 100)
-            if (mirComission <= 3500) 3500.0 else mirComission
+            val mirComission = trans * (MIR_COMISSION / 100.0)
+            if (mirComission <= 3500.0) 3500.0 else mirComission
         }
-
         CardType.MASTERCARD, CardType.MAESTRO -> {
-            val mastercardComission = (trans * MASTERCARD_COMISSION) + MASTERCARD_COMISSION_ADD
+            val mastercardComission = (trans * (MASTERCARD_COMISSION / 100.0)) + MASTERCARD_COMISSION_ADD
             if (trans + transferAmount < MASTERCARD_PROMOTION_MIN
-                && trans + transferAmount > MASTERCARD_PROMOTION_MAX
+                || trans + transferAmount > MASTERCARD_PROMOTION_MAX
             ) mastercardComission else 0.0
         }
     }
